@@ -5,13 +5,17 @@ public class Tutor {
     private String nomeTutor;
     private LocalDate dataNasc;
     public Tutor(String Nome, int d, int m, int a){
+        if(nomeTutor == null){
+            System.out.println("Cadastro do tutor encerrado!");
+            System.exit(1); 
+        }
         nomeTutor=Nome;
-        if (!validaData(d, m, a)) {
+        if(!validaData(d, m, a)){
             System.out.println("Data inválida: programa encerrado!");
             System.exit(1);
         }
         LocalDate dataTemp = LocalDate.of(a, m, d);
-        if (dataTemp.isAfter(LocalDate.now())) {
+        if(dataTemp.isAfter(LocalDate.now())){
             System.out.println("Data inválida: programa encerrado!");
             System.exit(1);
         }
@@ -36,7 +40,7 @@ public class Tutor {
                 quantDias = 28;
             }
             }
-            if (d < 1 || d > quantDias) {
+            if(d < 1 || d > quantDias){
                 return false;
             }
             return true;
