@@ -10,7 +10,7 @@ public class Tutor {
     private int cod;
     private ArrayList<Pet> pet=new ArrayList<Pet>();
     // Construtor
-    public Tutor(String Nome, int d, int m, int a, Cod){
+    public Tutor(String Nome, int d, int m, int a, int Cod){
         cod=Cod;
         if(nomeTutor == null){
             System.out.println("Cadastro do tutor encerrado!");
@@ -53,7 +53,7 @@ public class Tutor {
             return true;
         }
 
-    public String getCod(){
+    public int getCod(){
         return cod;
     }
     public String getNome(){
@@ -63,7 +63,7 @@ public class Tutor {
         DateTimeFormatter fmt=DateTimeFormatter.ofPattern("dd/MM/yyyy");
         return dataNasc.format(fmt);
     }
-    public void IncluiPet((String nomePet, String tipoPet)){
+    public void incluiPet(String nomePet, String tipoPet){
         Pet p=new Pet(nomePet,tipoPet);
         pet.add(p);
     }
