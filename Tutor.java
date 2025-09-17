@@ -1,10 +1,17 @@
+// CLASSE CONTRIBUINTE
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 
 public class Tutor {
+    // Atributos
     private String nomeTutor;
     private LocalDate dataNasc;
-    public Tutor(String Nome, int d, int m, int a){
+    private int cod;
+    private ArrayList<Pet> pet=new ArrayList<Pet>();
+    // Construtor
+    public Tutor(String Nome, int d, int m, int a, Cod){
+        cod=Cod;
         if(nomeTutor == null){
             System.out.println("Cadastro do tutor encerrado!");
             System.exit(1); 
@@ -45,11 +52,19 @@ public class Tutor {
             }
             return true;
         }
+
+    public String getCod(){
+        return cod;
+    }
     public String getNome(){
         return nomeTutor;
     }
     public String getDataNasc(){
         DateTimeFormatter fmt=DateTimeFormatter.ofPattern("dd/MM/yyyy");
         return dataNasc.format(fmt);
+    }
+    public void IncluiPet((String nomePet, String tipoPet)){
+        Pet p=new Pet(nomePet,tipoPet);
+        pet.add(p);
     }
 }
