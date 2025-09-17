@@ -64,7 +64,8 @@ public class Tutor {
         return dataNasc.format(fmt);
     }
     public void incluiPet(String nomePet, String tipoPet){
-        Pet p=new Pet(nomePet,tipoPet);
+        Pet p = new Pet(nomePet,tipoPet);
         pet.add(p);
     }
+    
 }
