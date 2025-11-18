@@ -67,8 +67,8 @@ public class Tutor {
         DateTimeFormatter fmt=DateTimeFormatter.ofPattern("dd/MM/yyyy");
         return dataNasc.format(fmt);
     }
-    public void incluiPet(String nomePet, String tipoPet){
-        Pet p = new Pet(nomePet,tipoPet);
+    public void incluiPet(String nomePet, String tipoPet, int ap, int mp, int dp){
+        Pet p = new Pet(nomePet,tipoPet, ap, mp, dp);
         pet.add(p);
     }
 

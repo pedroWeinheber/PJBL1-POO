@@ -52,17 +52,17 @@ public class PetMain {
     // Metodo para popular o cadastro com dados iniciais
     public static void popularCadastro() {
         Tutor tutor1 = new Tutor("Zeca Silva", 11, 5, 2000, geraCodTutor());
-        tutor1.incluiPet("Bilu", "Gato");
-        tutor1.incluiPet("Wilson", "Canário");
+        tutor1.incluiPet("Bilu", "Gato", 11, 5, 2000);
+        tutor1.incluiPet("Wilson", "Canário", 11, 5, 2000);
         cont.add(tutor1);
 
         Tutor tutor2 = new Tutor("Maria Lopes", 22, 2, 1988, geraCodTutor());
-        tutor2.incluiPet("Loro", "Papagaio");
+        tutor2.incluiPet("Loro", "Papagaio", 11, 5, 2000);
         cont.add(tutor2);
 
         Tutor tutor3 = new Tutor("Mário Pacheco", 12, 4, 2001, geraCodTutor());
-        tutor3.incluiPet("Rex", "Cão");
-        tutor3.incluiPet("Miau", "Gato");
+        tutor3.incluiPet("Rex", "Cão", 11, 5, 2000);
+        tutor3.incluiPet("Miau", "Gato", 11, 5, 2000);
         cont.add(tutor3);
     }
 
@@ -90,7 +90,11 @@ public class PetMain {
             }
             System.out.print("Digite tipo do pet: ");
             String tipoPet = sc.nextLine();
-            tutor.incluiPet(nomePet, tipoPet);
+            System.out.print("Digite data dia (dd), mês (mm) e ano (aaaa) de nascimento do pet: ");
+            int dp = sc.nextInt();
+            int mp = sc.nextInt();
+            int ap = sc.nextInt();
+            tutor.incluiPet(nomePet, tipoPet, dp, mp, ap);
             System.out.println("--- Pet cadastrado ---");
         }
 
@@ -107,7 +111,7 @@ public class PetMain {
             System.out.println("  Data nascimento: " + tutor.getDataNasc());
             System.out.println("  Relação de Pets:");
             for (Pet pet : tutor.getPets()) {
-                System.out.println("    - Nome do pet: " + pet.getNomePet() + "; Tipo: " + pet.getTipoPet());
+                System.out.println("    - Nome do pet: " + pet.getNomePet() + "; Tipo: " + pet.getTipoPet() + "; Idade: " + pet.getIdade());
             }
             System.out.println();
         }
