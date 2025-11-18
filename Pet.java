@@ -9,19 +9,23 @@ public class Pet {
     private LocalDate dataNasc;
     // Construtor
     public Pet(String nomePet, String tipoPet, int ap, int mp, int dp){
-        if(nomePet == null){
-            System.out.println("Cadastro do pet encerrado!");
-            System.exit(1);
-        }
+        try{
         this.nomePet=nomePet;
         this.tipoPet=tipoPet;
-
-        LocalDate dataTemp = LocalDate.of(dp, mp, ap);
-        if(dataTemp.isAfter(LocalDate.now())){
-            System.out.println("Data inválida: programa encerrado!");
+        }catch(NullPointerException e){
+            System.out.println("Nome nulo: cadastro encerrado!");
             System.exit(1);
         }
-        dataNasc = dataTemp;
+        try{
+            LocalDate dataTemp = LocalDate.of(dp, mp, ap);
+            if(dataTemp.isAfter(LocalDate.now())){
+                throw new IllegalArgumentException("Data futura!");
+            }
+            dataNasc = dataTemp;
+        }catch(IllegalArgumentException e){
+            System.out.println("cadastro encerrado!");
+            System.exit(1);
+        }    
     }
     // Getters
     public String getNomePet(){
