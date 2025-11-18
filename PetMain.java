@@ -18,19 +18,24 @@ public class PetMain {
             System.out.print("Opção escolhida: ");
             String opcao = sc.nextLine();
 
-            if (opcao.equals("c")) {
-                cadastrarTutorPet();
-            } else if (opcao.equals("i")) {
-                imprimeCont();
-            } else if (opcao.equals("b")) {
-                buscarPorCodigoTutor();
-            } else if (opcao.equals("e")) {
-                excluirPetPorCodigoTutor();
-            } else if (opcao.equals("x")) {
-                System.out.println("--- Programa de cadastro encerrado ---");
-                break;
-            } else {
-                System.out.println("Opção inválida.");
+            switch (opcao) {
+                case "c":
+                    cadastrarTutorPet();
+                    break;
+                case "i":
+                    imprimeCont();
+                    break;
+                case "b":
+                    buscarPorCodigoTutor();
+                    break;
+                case "e":
+                    excluirPetPorCodigoTutor();
+                    break;
+                case "x":
+                    System.out.println("--- Programa de cadastro encerrado ---");
+                    break;
+                default:
+                    System.out.println("Opção inválida.");
             }
         }
     }
@@ -44,7 +49,7 @@ public class PetMain {
         }
     }
 
-    // Método para popular o cadastro com dados iniciais
+    // Metodo para popular o cadastro com dados iniciais
     public static void popularCadastro() {
         Tutor tutor1 = new Tutor("Zeca Silva", 11, 5, 2000, geraCodTutor());
         tutor1.incluiPet("Bilu", "Gato");
@@ -61,7 +66,7 @@ public class PetMain {
         cont.add(tutor3);
     }
 
-    // Método para cadastrar tutor e pets
+    // Metodo para cadastrar tutor e pets
     public static void cadastrarTutorPet() {
         Scanner sc = new Scanner(System.in);
         System.out.print("Digite nome do tutor (vazio encerra cadastro tutor): ");
@@ -93,7 +98,7 @@ public class PetMain {
         System.out.println("--- Tutor cadastrado ---");
     }
 
-    // Método para imprimir o cadastro
+    // Metodo para imprimir o cadastro
     public static void imprimeCont() {
         System.out.println("--- CADASTRO DE TUTORES E PETS ---");
         for (Tutor tutor : cont) {
@@ -108,7 +113,7 @@ public class PetMain {
         }
     }
 
-    // Método para buscar pets por código do tutor
+    // Metodo para buscar pets por código do tutor
     public static void buscarPorCodigoTutor() {
         Scanner sc = new Scanner(System.in);
         System.out.print("Digite código do tutor a ser localizado: ");
@@ -136,7 +141,7 @@ public class PetMain {
         }
     }
 
-    // Método para excluir pets por código do tutor
+    // Metodo para excluir pets por código do tutor
     public static void excluirPetPorCodigoTutor() {
         Scanner sc = new Scanner(System.in);
         System.out.print("Digite código do tutor a ser excluído: ");
