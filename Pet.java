@@ -7,7 +7,7 @@ public class Pet {
     public Pet(String nomePet, String tipoPet){
         if(nomePet == null){
             System.out.println("Cadastro do pet encerrado!");
-            System.exit(1); 
+            System.exit(1);
         }
         this.nomePet=nomePet;
         this.tipoPet=tipoPet;
