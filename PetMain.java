@@ -33,6 +33,7 @@ public class PetMain {
                     break;
                 case "x":
                     System.out.println("--- Programa de cadastro encerrado ---");
+                    System.exit(1);
                     break;
                 default:
                     System.out.println("Opção inválida.");
@@ -86,6 +87,7 @@ public class PetMain {
             System.out.print("Digite nome do pet (vazio encerra cadastro pet): ");
             String nomePet = sc.nextLine();
             if (nomePet.isEmpty()) {
+                System.exit(1);
                 break;
             }
             System.out.print("Digite tipo do pet: ");
