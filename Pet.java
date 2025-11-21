@@ -34,12 +34,8 @@ public class Pet {
         }    
     }
     // Getters
-    public String getNomePet(){
-        return nomePet;
-    }
-    public String getTipoPet(){
-        return tipoPet;
-    }
+    public String getNomePet(){ return nomePet; }
+    public String getTipoPet(){ return tipoPet; }
     public LocalDate getDataNasc(){ return dataNasc; }
     public int getIdade(){
         LocalDate hoje=LocalDate.now();

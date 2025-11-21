@@ -1,70 +1,130 @@
+import java.io.EOFException;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class PetMain {
-    private static ArrayList<Tutor> cont = new ArrayList<Tutor>();
+    private static String arqTutor="Tutor.dat";
+    private static ArrayList<Tutor> tutores=new ArrayList<Tutor>();
+    int nTutores=recuperaTutores();
 
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        popularCadastro();
+        try (Scanner sc = new Scanner(System.in)) {
 
-        while (true) {
-            System.out.println("***** ESCOLHER UMA OPÇÃO *****");
-            System.out.println("c: cadastrar tutor + pet(s)");
-            System.out.println("i: imprimir cadastro");
-            System.out.println("b: buscar pets por código tutor");
-            System.out.println("e: excluir pets por código tutor");
-            System.out.println("x: encerrar.");
-            System.out.print("Opção escolhida: ");
-            String opcao = sc.nextLine();
+            while (true) {
+                System.out.println("***** ESCOLHER UMA OPÇÃO *****");
+                System.out.println("c: cadastrar tutor + pet(s)");
+                System.out.println("i: imprimir cadastro");
+                System.out.println("b: buscar pets por código tutor");
+                System.out.println("e: excluir pets por código tutor");
+                System.out.println("x: encerrar.");
+                System.out.print("Opção escolhida: ");
+                String opcao = sc.nextLine();
 
-            switch (opcao) {
-                case "c":
-                    cadastrarTutorPet();
-                    break;
-                case "i":
-                    imprimeCont();
-                    break;
-                case "b":
-                    buscarPorCodigoTutor();
-                    break;
-                case "e":
-                    excluirPetPorCodigoTutor();
-                    break;
-                case "x":
-                    System.out.println("--- Programa de cadastro encerrado ---");
-                    System.exit(1);
-                    break;
-                default:
-                    System.out.println("Opção inválida.");
+                switch (opcao) {
+                    case "c":
+                        cadastrarTutorPet();
+                        gravaTutores();
+                        recuperaTutores();
+                        break;
+                    case "i":
+                        imprimeTutores();
+                        break;
+                    case "b":
+                        buscarPorCodigoTutor();
+                        break;
+                    case "e":
+                        excluirPetPorCodigoTutor();
+                        gravaTutores();
+                        recuperaTutores();
+                        break;
+                    case "x":
+                        System.out.println("--- Programa de cadastro encerrado ---");
+                        System.exit(1);
+                        break;
+                    default:
+                        System.out.println("Opção inválida.");
+                }
             }
         }
     }
 
     // Gerador de Código para Tutor
     public static int geraCodTutor() {
-        if (cont.size() == 0) {
+        int ts = tutores.size();
+        if (ts==0)
             return 1;
-        } else {
-            return cont.get(cont.size() - 1).getCod() + 1;
-        }
+        else
+            return tutores.get(ts-1).getCod()+1;
     }
 
-    // Metodo para popular o cadastro com dados iniciais
-    public static void popularCadastro() {
-        Tutor tutor1 = new Tutor("Zeca Silva", 11, 5, 2000, geraCodTutor());
-        tutor1.incluiPet("Bilu", "Gato", 11, 5, 2000);
-        tutor1.incluiPet("Wilson", "Canário", 11, 5, 2000);
-        cont.add(tutor1);
+    public static int recuperaTutores(){
+        ObjectInputStream inputStream=null;
+        int count = 0;
+        try{
+            inputStream=new ObjectInputStream
+                            (new FileInputStream(arqTutor));
+            Object obj = null;
+            if(tutores.size()>0) tutores.clear();
 
-        Tutor tutor2 = new Tutor("Maria Lopes", 22, 2, 1988, geraCodTutor());
-        tutor2.incluiPet("Loro", "Papagaio", 11, 5, 2000);
-        cont.add(tutor2);
+            while ((obj=inputStream.readObject())!=null){
+                if(obj instanceof Tutor)
+                    tutores.add((Tutor)obj);
+                count++;
+            }
+        }
+        catch(EOFException ex) {
+            System.out.println("Fim da leitura do arquivo "+arqTutor+".");
+        }
+        catch(FileNotFoundException ex){
+            System.out.println("Arquivo de pessoas inexistente.");
+        }
+        catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+        finally{
+            try{
+                if(inputStream!=null)
+                    inputStream.close();
+            }catch(IOException ex){
+                ex.getMessage();
+            }
+        }
+        return count;
+    }
 
-        Tutor tutor3 = new Tutor("Mário Pacheco", 12, 4, 2001, geraCodTutor());
-        tutor3.incluiPet("Rex", "Cão", 11, 5, 2000);
-        tutor3.incluiPet("Miau", "Gato", 11, 5, 2000);
-        cont.add(tutor3);
+    public static void gravaTutores(){
+        ObjectOutputStream outputStream=null;
+        try{
+            outputStream=new ObjectOutputStream
+                            (new FileOutputStream(arqTutor));
+            for(Tutor t:tutores) outputStream.writeObject(t);
+        }
+        catch(EOFException ex) {
+            System.out.println("Fim de escrita no arquivo de pessoas.");
+        }
+        catch(FileNotFoundException ex){
+            System.out.println("Arquivo de tutor não encontrado.");
+        }
+        catch(IOException ex){
+            System.out.println(ex.getMessage());
+        }
+        finally{
+            try{
+                if(outputStream!=null){
+                    outputStream.flush();
+                    outputStream.close();
+                }
+            }
+            catch(IOException ex){
+                System.out.println(ex.getMessage());
+            }
+        }
     }
 
     // Metodo para cadastrar tutor e pets
@@ -73,6 +133,7 @@ public class PetMain {
         System.out.print("Digite nome do tutor (vazio encerra cadastro tutor): ");
         String nomeTutor = sc.nextLine();
         if (nomeTutor.isEmpty()) {
+            sc.close();
             return;
         }
 
@@ -100,14 +161,15 @@ public class PetMain {
             System.out.println("--- Pet cadastrado ---");
         }
 
-        cont.add(tutor);
+        tutores.add(tutor);
         System.out.println("--- Tutor cadastrado ---");
+        sc.close();
     }
 
     // Metodo para imprimir o cadastro
-    public static void imprimeCont() {
+    public static void imprimeTutores() {
         System.out.println("--- CADASTRO DE TUTORES E PETS ---");
-        for (Tutor tutor : cont) {
+        for (Tutor tutor : tutores) {
             System.out.println("Cod. do tutor: " + tutor.getCod());
             System.out.println("  Nome...........: " + tutor.getNome());
             System.out.println("  Data nascimento: " + tutor.getDataNasc());
@@ -127,7 +189,7 @@ public class PetMain {
         sc.nextLine();  // Consumir o newline leftover
 
         boolean encontrado = false;
-        for (Tutor tutor : cont) {
+        for (Tutor tutor : tutores) {
             if (tutor.getCod() == codTutor) {
                 System.out.println("--- Tutor localizado ---");
                 System.out.println("Cod. do tutor: " + tutor.getCod());
@@ -145,6 +207,7 @@ public class PetMain {
         if (!encontrado) {
             System.out.println("Tutor não encontrado.");
         }
+        sc.close();
     }
 
     // Metodo para excluir pets por código do tutor
@@ -155,9 +218,9 @@ public class PetMain {
         sc.nextLine();  // Consumir o newline leftover
 
         boolean encontrado = false;
-        for (Tutor tutor : cont) {
+        for (Tutor tutor : tutores) {
             if (tutor.getCod() == codTutor) {
-                cont.remove(tutor);
+                tutores.remove(tutor);
                 System.out.println("--- Tutor (+pets) com código " + codTutor + " excluído com sucesso! ---");
                 encontrado = true;
                 break;
@@ -167,5 +230,6 @@ public class PetMain {
         if (!encontrado) {
             System.out.println("Tutor não encontrado.");
         }
+        sc.close();
     }
 }
