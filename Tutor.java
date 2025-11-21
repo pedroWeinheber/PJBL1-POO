@@ -12,21 +12,30 @@ public class Tutor {
     // Construtor
     public Tutor(String Nome, int d, int m, int a, int Cod){
         cod=Cod;
-        if(Nome == null){
-            System.out.println("Cadastro do tutor encerrado!");
-            System.exit(1);
+        try{
+        if(Nome == null){          
+            throw new NullPointerException();
+            
         }
         nomeTutor=Nome;
+        }catch(NullPointerException e){
+            System.out.println("Cadastro do tutor encerrado");
+            System.exit(1);
+        }
         if(!validaData(d, m, a)){
             System.out.println("Data inválida: programa encerrado!");
             System.exit(1);
         }
-        LocalDate dataTemp = LocalDate.of(a, m, d);
-        if(dataTemp.isAfter(LocalDate.now())){
+        try{
+            LocalDate dataTemp = LocalDate.of(a, m, d);
+            if(dataTemp.isAfter(LocalDate.now())){
+                throw new IllegalArgumentException();
+            }dataNasc = dataTemp;
+        }
+            catch(IllegalArgumentException e){
             System.out.println("Data inválida: programa encerrado!");
             System.exit(1);
-        }
-        dataNasc = dataTemp;
+    }
     }
     private boolean validaData(int d, int m, int a){
         if(m<1 || m>12){

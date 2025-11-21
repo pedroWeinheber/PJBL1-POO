@@ -87,7 +87,6 @@ public class PetMain {
             System.out.print("Digite nome do pet (vazio encerra cadastro pet): ");
             String nomePet = sc.nextLine();
             if (nomePet.isEmpty()) {
-                System.exit(1);
                 break;
             }
             System.out.print("Digite tipo do pet: ");
