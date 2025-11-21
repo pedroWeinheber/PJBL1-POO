@@ -13,13 +13,11 @@ public class Pet {
         try{
             if(nomePet==null){
                 throw new NullPointerException("Nome nulo!");
-
             }
             this.nomePet=nomePet;
             this.tipoPet=tipoPet;
         }catch(NullPointerException e){
-            System.out.println("cadastro encerrado");
-            System.exit(1);
+            System.out.println("Cadastro encerrado");
         }
 
         try{
@@ -29,8 +27,7 @@ public class Pet {
             }
             dataNasc = dataTemp;
         }catch(IllegalArgumentException e){
-            System.out.println("cadastro encerrado!");
-            System.exit(1);
+            System.out.println("Cadastro encerrado!");
         }    
     }
     // Getters
